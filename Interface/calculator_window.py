@@ -1,12 +1,12 @@
 import tkinter
 
-
 WINDOWS_COLOR = '#0e0e0e'
 BUTTON_COLOR = '#414141'
 
+
 root = tkinter.Tk()
-entry = tkinter.Entry(root, justify=tkinter.RIGHT)
-entry.grid(row=0, column=0, columnspan=3)
+entry = tkinter.Entry(root, justify=tkinter.RIGHT, font=('Arial', 20), width=16)
+entry.grid(row=0, column=0, columnspan=3, stick='we')
 
 
 def main():
@@ -30,29 +30,33 @@ def add_digit(digit):
     entry.insert(0, value)
 
 
+def button_settings(digit, row, column):
+    return tkinter.Button(text=digit,
+                          font=('Arial', 16),
+                          command=lambda: add_digit(digit),
+                          background=BUTTON_COLOR,
+                          height=2,
+                          width=2
+                          ).grid(row=row,
+                                 column=column,
+                                 stick='wens',
+                                 padx=2,
+                                 pady=2
+                                 )
+
+
 def create_buttons():
-    btn_1 = tkinter.Button(text='1', command=lambda: add_digit(1), background=BUTTON_COLOR)
-    btn_1.grid(row=1, column=0, sticky='wens', padx=2, pady=2)
-    btn_2 = tkinter.Button(text='2', command=lambda: add_digit(2), background=BUTTON_COLOR)
-    btn_2.grid(row=1, column=1, sticky='wens', padx=2, pady=2)
-    btn_3 = tkinter.Button(text='3', command=lambda: add_digit(3), background=BUTTON_COLOR)
-    btn_3.grid(row=1, column=2, sticky='wens', padx=2, pady=2)
-    btn_4 = tkinter.Button(text='4', command=lambda: add_digit(4), background=BUTTON_COLOR)
-    btn_4.grid(row=2, column=0, sticky='wens', padx=2, pady=2)
-    btn_5 = tkinter.Button(text='5', command=lambda: add_digit(5), background=BUTTON_COLOR)
-    btn_5.grid(row=2, column=1, sticky='wens', padx=2, pady=2)
-    btn_6 = tkinter.Button(text='6', command=lambda: add_digit(6), background=BUTTON_COLOR)
-    btn_6.grid(row=2, column=2, sticky='wens', padx=2, pady=2)
-    btn_7 = tkinter.Button(text='7', command=lambda: add_digit(7), background=BUTTON_COLOR)
-    btn_7.grid(row=3, column=0, sticky='wens', padx=2, pady=2)
-    btn_8 = tkinter.Button(text='8', command=lambda: add_digit(8), background=BUTTON_COLOR)
-    btn_8.grid(row=3, column=1, sticky='wens', padx=2, pady=2)
-    btn_9 = tkinter.Button(text='9', command=lambda: add_digit(9), background=BUTTON_COLOR)
-    btn_9.grid(row=3, column=2, sticky='wens', padx=2, pady=2)
-    btn_10 = tkinter.Button(text='0', command=lambda: add_digit(0), background=BUTTON_COLOR)
-    btn_10.grid(row=4, column=0, sticky='wens', padx=2, pady=2)
-    btn_11 = tkinter.Button(text='=', background=BUTTON_COLOR)
-    btn_11.grid(row=4, column=2, sticky='wens', padx=2, pady=2)
+    button_settings('1', 1, 0)
+    button_settings('2', 1, 1)
+    button_settings('3', 1, 2)
+    button_settings('4', 2, 0)
+    button_settings('5', 2, 1)
+    button_settings('6', 2, 2)
+    button_settings('7', 3, 0)
+    button_settings('8', 3, 1)
+    button_settings('9', 3, 2)
+    button_settings('0', 4, 0)
+    button_settings('=', 4, 2)
 
 
 if __name__ == '__main__':
