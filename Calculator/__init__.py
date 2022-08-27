@@ -11,6 +11,8 @@ def main():
             print(multiply(float(input('Enter the first number: ')), float(input('Enter the second number: '))))
         elif user_choice == 4:
             print(divide(float(input('Enter the first number: ')), float(input('Enter the second number: '))))
+        elif user_choice < 1 or user_choice > 4:
+            print('You entered a value out of range')
     except ValueError:
         print('You can only enter numbers')
 
