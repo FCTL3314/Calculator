@@ -3,6 +3,7 @@ import tkinter
 
 def main():
     create_window()
+    grid_configure()
     create_digit_buttons()
     create_operator_buttons()
     create_equals_button()
@@ -11,18 +12,27 @@ def main():
 
 
 def create_window():
-    root['bg'] = '#0e0e0e'
-    root.title('calculator_functions')
-    root.geometry('320x500+100+150')
+    root['bg'] = '#131313'
+    root.title('SimpleCalculator')
+    root.geometry('350x436+100+150')
     icon = tkinter.PhotoImage(file='icon.png')
     root.iconphoto(False, icon)
-    root.resizable(True, True)
+    root.resizable(False, False)
+
+
+def grid_configure():
+    root.grid_columnconfigure(0, weight=15)
+    root.grid_columnconfigure(1, weight=15)
+    root.grid_columnconfigure(2, weight=15)
+    root.grid_columnconfigure(3, weight=15)
 
 
 def add_digit(digit):
-    value = entry.get() + str(digit)
+    value = entry.get()
+    if value[0] == '0':
+        value = value[1:]
     entry.delete(0, tkinter.END)
-    entry.insert(0, value)
+    entry.insert(0, value + digit)
 
 
 def add_operator(operator):
@@ -35,21 +45,30 @@ def add_operator(operator):
 
 def clear_entry():
     entry.delete(0, tkinter.END)
+    entry.insert(0, '0')
+
+
+def do_calculations():
+    value = entry.get()
+    if value[-1] in '+-*/':
+        value = value + value[:-1]
+    entry.delete(0, tkinter.END)
+    entry.insert(0, eval(value))
 
 
 def digit_button_settings(digit, row, column):
     return tkinter.Button(text=digit,
                           font=('Arial', 16),
                           command=lambda: add_digit(digit),
-                          background='#414141',
-                          fg='black',
-                          height=2,
+                          background='#585858',
+                          fg='#ffffff',
+                          height=3,
                           width=2
                           ).grid(row=row,
                                  column=column,
                                  stick='wens',
-                                 padx=2,
-                                 pady=2
+                                 padx=5,
+                                 pady=5
                                  )
 
 
@@ -57,30 +76,31 @@ def operator_button_settings(operator, row, column):
     return tkinter.Button(text=operator,
                           font=('Arial', 16),
                           command=lambda: add_operator(operator),
-                          background='#4d4d4d',
-                          fg='purple',
+                          background='#343434',
+                          fg='#ffffff',
                           height=2,
                           width=2
                           ).grid(row=row,
                                  column=column,
                                  stick='wens',
-                                 padx=2,
-                                 pady=2
+                                 padx=5,
+                                 pady=5
                                  )
 
 
 def equals_button_settings(operator, row, column):
     return tkinter.Button(text=operator,
                           font=('Arial', 16),
-                          background='#4d4d4d',
-                          fg='white',
+                          command=do_calculations,
+                          background='#898989',
+                          fg='#ffffff',
                           height=2,
                           width=2
                           ).grid(row=row,
                                  column=column,
                                  stick='wens',
-                                 padx=2,
-                                 pady=2
+                                 padx=5,
+                                 pady=5
                                  )
 
 
@@ -88,15 +108,15 @@ def clear_button_settings(operator, row, column):
     return tkinter.Button(text=operator,
                           font=('Arial', 16),
                           command=clear_entry,
-                          background='#4d4d4d',
-                          fg='white',
+                          background='#898989',
+                          fg='#ffffff',
                           height=2,
                           width=2
                           ).grid(row=row,
                                  column=column,
                                  stick='wens',
-                                 padx=2,
-                                 pady=2
+                                 padx=5,
+                                 pady=5
                                  )
 
 
@@ -130,7 +150,18 @@ def create_clear_button():
 
 if __name__ == '__main__':
     root = tkinter.Tk()
-    entry = tkinter.Entry(root, justify=tkinter.RIGHT, font=('Arial', 20), width=16)
-    entry.grid(row=0, column=0, columnspan=4, stick='we')
+    entry = tkinter.Entry(root,
+                          justify=tkinter.RIGHT,
+                          font=('Arial', 20),
+                          width=18,
+                          background='#131313',
+                          foreground='#ffffff'
+                          )
+    entry.grid(row=0,
+               column=0,
+               columnspan=4,
+               stick='we'
+               )
+    entry.insert(0, '0')
 
     main()
