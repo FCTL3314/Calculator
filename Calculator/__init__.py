@@ -29,9 +29,11 @@ def grid_configure():
 
 def add_digit(digit):
     value = entry.get()
-    if entry.get() != '':
+    if value != '':
         if value[0] == '0':
             value = value[1:]
+        elif value == 'Error':
+            value = ''
     entry.delete(0, tkinter.END)
     entry.insert(0, value + digit)
 
@@ -54,7 +56,12 @@ def do_calculations():
     if value[-1] in '+-*/':
         value = value + value[:-1]
     entry.delete(0, tkinter.END)
-    entry.insert(0, eval(value))
+    try:
+        entry.insert(0, eval(value))
+    except SyntaxError:
+        entry.insert(0, 'Error')
+    except NameError:
+        entry.insert(0, 'Error')
 
 
 def digit_button_settings(digit, row, column):
