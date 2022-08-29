@@ -1,3 +1,4 @@
+"""The module is responsible for the interactive window and the calculator itself"""
 import tkinter
 
 
@@ -12,6 +13,7 @@ def main():
 
 
 def create_window():
+    """Creates a window and sets its settings"""
     root['bg'] = '#131313'
     root.title('SimpleCalculator')
     root.geometry('350x436+100+150')
@@ -21,6 +23,7 @@ def create_window():
 
 
 def grid_configure():
+    """Sets grid options"""
     root.grid_columnconfigure(0, weight=15)
     root.grid_columnconfigure(1, weight=15)
     root.grid_columnconfigure(2, weight=15)
@@ -28,17 +31,19 @@ def grid_configure():
 
 
 def add_digit(digit):
+    """Adds the user-pressed number to the entry field"""
     value = entry.get()
     if value != '':
         if value[0] == '0':
             value = value[1:]
-        elif value == 'Error':
+        elif value in 'Error' 'Inf':
             value = ''
     entry.delete(0, tkinter.END)
     entry.insert(0, value + digit)
 
 
 def add_operator(operator):
+    """Adds an operator to the entry field"""
     value = entry.get()
     if value[-1] in '+-*/':
         value = value[:-1]
@@ -47,11 +52,13 @@ def add_operator(operator):
 
 
 def clear_entry():
+    """Clear the entry field"""
     entry.delete(0, tkinter.END)
     entry.insert(0, '0')
 
 
 def do_calculations():
+    """Depending on the selected operators, it performs calculations"""
     value = entry.get()
     if value[-1] in '+-*/':
         value = value + value[:-1]
@@ -65,6 +72,7 @@ def do_calculations():
 
 
 def digit_button_settings(digit, row, column):
+    """Indicates number button settings"""
     return tkinter.Button(text=digit,
                           font=('Arial', 16),
                           command=lambda: add_digit(digit),
@@ -81,6 +89,7 @@ def digit_button_settings(digit, row, column):
 
 
 def operator_button_settings(operator, row, column):
+    """Indicates operator button settings"""
     return tkinter.Button(text=operator,
                           font=('Arial', 16),
                           command=lambda: add_operator(operator),
@@ -97,6 +106,7 @@ def operator_button_settings(operator, row, column):
 
 
 def equals_button_settings(operator, row, column):
+    """Indicates equals button settings"""
     return tkinter.Button(text=operator,
                           font=('Arial', 16),
                           command=do_calculations,
@@ -113,6 +123,7 @@ def equals_button_settings(operator, row, column):
 
 
 def clear_button_settings(operator, row, column):
+    """Indicates clear button settings"""
     return tkinter.Button(text=operator,
                           font=('Arial', 16),
                           command=clear_entry,
@@ -129,6 +140,7 @@ def clear_button_settings(operator, row, column):
 
 
 def create_digit_buttons():
+    """Creates digit buttons"""
     digit_button_settings('1', 1, 0)
     digit_button_settings('2', 1, 1)
     digit_button_settings('3', 1, 2)
@@ -142,6 +154,7 @@ def create_digit_buttons():
 
 
 def create_operator_buttons():
+    """Creates operator buttons"""
     operator_button_settings('+', 1, 3)
     operator_button_settings('-', 2, 3)
     operator_button_settings('*', 3, 3)
@@ -149,10 +162,12 @@ def create_operator_buttons():
 
 
 def create_equals_button():
+    """Creates equal button"""
     equals_button_settings('=', 4, 2)
 
 
 def create_clear_button():
+    """Creates clear button"""
     clear_button_settings('CLR', 4, 1)
 
 
