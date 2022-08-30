@@ -1,15 +1,20 @@
-"""The module is responsible for the interactive window and the calculator itself"""
+"""The calculator_main is responsible for the interactive window and the calculator itself"""
 import tkinter
 
-
-def main():
-    create_window()
-    grid_configure()
-    create_digit_buttons()
-    create_operator_buttons()
-    create_equals_button()
-    create_clear_button()
-    root.mainloop()
+root = tkinter.Tk()
+entry = tkinter.Entry(root,
+                      justify=tkinter.RIGHT,
+                      font=('Arial', 20),
+                      width=18,
+                      background='#131313',
+                      foreground='#ffffff'
+                      )
+entry.grid(row=0,
+           column=0,
+           columnspan=4,
+           stick='we'
+           )
+entry.insert(0, '0')
 
 
 def create_window():
@@ -31,19 +36,19 @@ def grid_configure():
 
 
 def add_digit(digit):
-    """Adds the user-pressed number to the entry field"""
+    """Adds the button-pressed number to the entry field"""
     value = entry.get()
-    if value != '':
-        if value[0] == '0':
-            value = value[1:]
-        elif value in 'Error' 'Inf':
-            value = ''
+    if value == '0':
+        value = value[1:]
+    elif not value.isdigit() and ' ' in value:
+        value = ''
     entry.delete(0, tkinter.END)
     entry.insert(0, value + digit)
 
 
 def add_operator(operator):
-    """Adds an operator to the entry field"""
+    """Adds an operator to the entry field and if the last symbol of the entry is the operator changes
+     it to the new selected one"""
     value = entry.get()
     if value[-1] in '+-*/':
         value = value[:-1]
@@ -57,18 +62,20 @@ def clear_entry():
     entry.insert(0, '0')
 
 
-def do_calculations():
+def do_calculations(value):
     """Depending on the selected operators, it performs calculations"""
-    value = entry.get()
     if value[-1] in '+-*/':
         value = value + value[:-1]
     entry.delete(0, tkinter.END)
     try:
         entry.insert(0, eval(value))
+        return eval(value)
     except SyntaxError:
-        entry.insert(0, 'Error')
+        entry.insert(0, 'Syntax Error')
     except NameError:
-        entry.insert(0, 'Error')
+        entry.insert(0, 'Name Error')
+    except ZeroDivisionError:
+        entry.insert(0, 'Zero Division Error')
 
 
 def digit_button_settings(digit, row, column):
@@ -109,7 +116,7 @@ def equals_button_settings(operator, row, column):
     """Indicates equals button settings"""
     return tkinter.Button(text=operator,
                           font=('Arial', 16),
-                          command=do_calculations,
+                          command=lambda: do_calculations(entry.get()),
                           background='#898989',
                           fg='#ffffff',
                           height=2,
@@ -171,20 +178,15 @@ def create_clear_button():
     clear_button_settings('CLR', 4, 1)
 
 
-if __name__ == '__main__':
-    root = tkinter.Tk()
-    entry = tkinter.Entry(root,
-                          justify=tkinter.RIGHT,
-                          font=('Arial', 20),
-                          width=18,
-                          background='#131313',
-                          foreground='#ffffff'
-                          )
-    entry.grid(row=0,
-               column=0,
-               columnspan=4,
-               stick='we'
-               )
-    entry.insert(0, '0')
+def main():
+    create_window()
+    grid_configure()
+    create_digit_buttons()
+    create_operator_buttons()
+    create_equals_button()
+    create_clear_button()
+    root.mainloop()
 
+
+if __name__ == '__main__':
     main()
